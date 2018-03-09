@@ -1,0 +1,24 @@
+{
+  "path":".",
+  "files": [
+    {
+      "path":"file1.txt",
+      "content":"Hello world!"
+    },
+    {
+      "path":"file2.txt",
+      "content":"@classpath:structure1/file2.txt"
+    }
+  ],
+  "subDirectories":[
+    {
+      "path":"subdir",
+      "files":[
+        {
+          "path":"file3.txt",
+          "content":"file3 content"
+        }
+      ]
+    }
+  ]
+}
