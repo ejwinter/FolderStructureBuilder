@@ -16,7 +16,7 @@ class StructureBuilderSpec extends Specification {
     StructureDefinitionLoader loader = new JacksonStructureDefinitionLoader()
     StructureBuilder<Path> builder = new StructureBuilder<>(implementor, loader)
 
-    def "integrated implementation"(){
+    def "integrated implementation"() {
         when:
         Path temp = builder.implementFromClasspath("structure1/structure1.json", temporaryFolder.newFolder().toPath())
 

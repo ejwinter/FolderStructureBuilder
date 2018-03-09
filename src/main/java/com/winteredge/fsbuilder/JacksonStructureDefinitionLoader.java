@@ -2,16 +2,20 @@ package com.winteredge.fsbuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 
+/**
+ * Use this if you want to load definitions from json files using Jackson.  You
+ * will need to make sure Jackson 2.x is on your classpath.
+ */
 public class JacksonStructureDefinitionLoader implements StructureDefinitionLoader {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
     public JacksonStructureDefinitionLoader() {
+        objectMapper = new ObjectMapper();
     }
 
     public JacksonStructureDefinitionLoader(ObjectMapper objectMapper) {
@@ -19,7 +23,7 @@ public class JacksonStructureDefinitionLoader implements StructureDefinitionLoad
     }
 
     @Override
-    public StructureDefinition load(Path path){
+    public StructureDefinition load(Path path) {
         try {
             return objectMapper.readValue(path.toFile(), StructureDefinition.class);
         } catch (IOException e) {
@@ -34,11 +38,6 @@ public class JacksonStructureDefinitionLoader implements StructureDefinitionLoad
         } catch (IOException e) {
             throw new StructureImplementationException(e);
         }
-    }
-
-    @Override
-    public StructureDefinition load(File file){
-        return load(file.toPath());
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.winteredge.fsbuilder;
 
-public class StructureImplementationException extends RuntimeException{
+public class StructureImplementationException extends RuntimeException {
     public StructureImplementationException(Exception e) {
         super(e);
     }

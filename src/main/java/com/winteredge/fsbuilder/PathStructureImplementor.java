@@ -1,6 +1,8 @@
 package com.winteredge.fsbuilder;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -10,9 +12,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Implements the given structure
+ * Implements the given structure into a Path which should be a directory
  */
-public class PathStructureImplementor implements StructureImplementor<Path>{
+public class PathStructureImplementor implements StructureImplementor<Path> {
 
     /**
      * Takes a given definition and implements it within the given destination
@@ -20,13 +22,13 @@ public class PathStructureImplementor implements StructureImplementor<Path>{
     public void implement(StructureDefinition definition, Path destination) {
 
         Path where;
-        if(definition.getPath() == null || definition.getPath().isEmpty() || definition.getPath().equals(".")) {
+        if (definition.getPath() == null || definition.getPath().isEmpty() || definition.getPath().equals(".")) {
             where = destination;
-        }else{
+        } else {
             where = destination.resolve(definition.getPath());
         }
 
-        if(!Files.isDirectory(where)){
+        if (!Files.isDirectory(where)) {
             try {
                 Files.createDirectory(where);
             } catch (IOException e) {
@@ -41,24 +43,24 @@ public class PathStructureImplementor implements StructureImplementor<Path>{
     private void writeFile(Path where, StructureFile file) {
         Path filePath = where.resolve(file.getPath());
         String content;
-        if(file.getContent().startsWith("@classpath:")){
-            String resourcePath = file.getContent().substring(11,file.getContent().length());
+        if (file.getContent().startsWith("@classpath:")) {
+            String resourcePath = file.getContent().substring(11, file.getContent().length());
             ClassLoader classLoader = ClassLoader.getSystemClassLoader();
             URL url = classLoader.getResource(resourcePath);
-            if(url == null){
+            if (url == null) {
                 throw new StructureImplementationException("We could not find the resource: " + resourcePath);
             }
-            try(Stream<String> lines = Files.lines(new File(url.toURI()).toPath(), file.getCharset())){
+            try (Stream<String> lines = Files.lines(new File(url.toURI()).toPath(), file.getCharset())) {
                 content = lines.collect(Collectors.joining(System.lineSeparator()));
             } catch (URISyntaxException | IOException e) {
                 throw new StructureImplementationException("We could not find resource.", e);
             }
 
-        }else {
+        } else {
             content = file.getContent();
         }
 
-        try(BufferedWriter writer = Files.newBufferedWriter(filePath, file.getCharset(), StandardOpenOption.CREATE)){
+        try (BufferedWriter writer = Files.newBufferedWriter(filePath, file.getCharset(), StandardOpenOption.CREATE)) {
             writer.write(content);
         } catch (IOException e) {
             throw new StructureImplementationException(e);

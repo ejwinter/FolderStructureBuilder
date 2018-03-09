@@ -11,9 +11,10 @@ class JacksonStructureDefinitionLoaderSpec extends Specification {
 
     StructureDefinitionLoader loader = new JacksonStructureDefinitionLoader()
     PathStructureImplementor implementor = new PathStructureImplementor()
-    @Rule TemporaryFolder temporaryFolder
+    @Rule
+    TemporaryFolder temporaryFolder
 
-    def "from url"(){
+    def "from url"() {
 
         given:
         URL url = ClassLoader.getSystemClassLoader().getResource("structure1/structure1.json")
@@ -26,7 +27,7 @@ class JacksonStructureDefinitionLoaderSpec extends Specification {
         definition.getSubDirectories().get(0).getFiles().get(0).getPath() == "file3.txt"
     }
 
-    def "from url integration"(){
+    def "from url integration"() {
 
         given:
         Path tempPath = temporaryFolder.newFolder().toPath()

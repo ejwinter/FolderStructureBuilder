@@ -16,11 +16,11 @@ class PathStructureImplementorSpec extends Specification {
     @Rule
     TemporaryFolder temporaryFolder
 
-    def setup(){
+    def setup() {
         implementor = new PathStructureImplementor()
     }
 
-    def "implement simple files with subdirectories"(){
+    def "implement simple files with subdirectories"() {
 
         given:
         StructureDefinition definition = new StructureDefinition(".")
@@ -38,7 +38,7 @@ class PathStructureImplementorSpec extends Specification {
         Files.readAllLines(dest.resolve("sub").resolve("file2.txt")).get(0).equals("hi")
     }
 
-    def "implement with classpath resource as file source"(){
+    def "implement with classpath resource as file source"() {
 
         given:
         StructureDefinition definition = new StructureDefinition(".")
