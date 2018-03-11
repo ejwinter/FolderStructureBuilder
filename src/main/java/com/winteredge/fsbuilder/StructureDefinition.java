@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * sub directories or content for a specific path
  */
 public class StructureDefinition {
-
+    
     private String path = ".";
     private List<StructureDefinition> subDirectories = new LinkedList<>();
     private List<StructureFile> files = new LinkedList<>();
